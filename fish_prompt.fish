@@ -18,6 +18,27 @@ function _user_host
   echo -n (hostname|cut -d . -f 1)ˇ$USER (set color normal)
 end
 
+function parse_git_dirty
+  set -l submodule_syntax
+  set submodule_syntax "--ignore-submodules=dirty"
+  set git_dirty (command git status --porcelain $submodule_syntax  2> /dev/null)
+  command git status --porcelain $submodule_syntax  2> /dev/null | command grep -e "^?? " -e "^ M " 2>/dev/null >/dev/null
+  set git_added $status
+  if [ -n "$git_dirty" ]
+    if [ $__fish_git_prompt_showdirtystate = "yes" ]
+      if [ $git_added = 1 ]
+        echo -n "$__fish_git_prompt_char_addedstate"
+      else
+        echo -n "$__fish_git_prompt_char_dirtystate"
+      end
+    end
+  else
+    if [ $__fish_git_prompt_showdirtystate = "yes" ]
+      echo -n "$__fish_git_prompt_char_cleanstate"
+    end
+  end
+end
+
 function prompt_git -d "Display the current git state"
   set -l ref
   set -l dirty

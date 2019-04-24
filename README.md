@@ -13,6 +13,7 @@ Clean git theme with homey feel and git-centric features.
 
 * Right-hand side:
 	* last error code (if applicable)
+        * virtualenv/conda environment (if applicable and activated)
 
 #### Optional settings
 
@@ -25,6 +26,7 @@ You can set the following git-related options with a universal variable:
 You can also override the character last printed by bonfather.
 - `__fish_prompt_nicepromptchar`: Defaults to `#` for root and to `$` for any other user.
 
+To show the current virtualenv/conda environment in the right prompt, set `__bonfather_show_virtualenv` to `true`.
 #### Credits:
 
 Colors and git functions taken from [amio](https://github.com/amio)'s

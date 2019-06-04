@@ -28,7 +28,7 @@ function parse_git_dirty
   set -l submodule_syntax
   set submodule_syntax "--ignore-submodules=dirty"
   set git_dirty (command git status --porcelain $submodule_syntax  2> /dev/null)
-  command git status --porcelain $submodule_syntax  2> /dev/null | command grep -e "^?? " -e "^ M " 2>/dev/null >/dev/null
+  echo $git_dirty | command grep -e "^?? " -e "^ M " 2>/dev/null >/dev/null
   set git_added $status
   if [ -n "$git_dirty" ]
     if [ "$__fish_git_prompt_showdirtystate" = "yes" ]

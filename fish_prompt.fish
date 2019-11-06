@@ -57,25 +57,23 @@ function prompt_git -d "Display the current git state"
 
   if command git rev-parse --is-inside-work-tree >/dev/null 2>&1
     set dirty (parse_git_dirty)
-    set ref (command git symbolic-ref HEAD 2> /dev/null)
-    if [ "$status" -gt 0 ]
-      set -l branch (command git show-ref --head -s --abbrev |head -n1 2> /dev/null)
-      set ref " > $branch"
-    end
-    set -l branch (echo $ref | sed  "s-refs/heads/-$branch_symbol -")
-    if [ "$KFK_NOBRANCH" = "" ]
+    if functions -q bash-it
       if [ "$dirty" != "" ]
-        echo -n "$yellow$branch $dirty"
-        set -g KFK_VERSIONING '_'
+        echo -n "$yellow"(bash-it git_prompt_info)
       else
-        echo -n "$green$branch"
-        set -g KFK_VERSIONING '_'
+        echo -n "$green"(bash-it git_prompt_info)
       end
     else
+      set ref (command git symbolic-ref HEAD 2> /dev/null)
+      if [ "$status" -gt 0 ]
+        set -l branch (command git show-ref --head -s --abbrev |head -n1 2> /dev/null)
+        set ref " > $branch"
+      end
+      set -l branch (echo $ref | sed  "s-refs/heads/-$branch_symbol -")
       if [ "$dirty" != "" ]
-        echo -n $yellow hello
+        echo -n "$yellow$branch $dirty"
       else
-        echo -n $green elho
+        echo -n "$green$branch"
       end
     end
   end
